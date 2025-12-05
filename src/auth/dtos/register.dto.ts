@@ -1,8 +1,8 @@
 // src/modules/auth/dto/register.dto.ts
 import { IsEmail, IsIn, IsNotEmpty, IsOptional, Matches, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/users/schemas/users.shema';
-import { UserRole } from 'src/users/schemas/users.shema';
+import { User } from '../../users/schemas/user.schema';
+import { UserRole } from '../../users/schemas/user.schema';
 
 export class RegisterDto {
 @ApiProperty()
