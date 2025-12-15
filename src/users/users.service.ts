@@ -13,13 +13,13 @@ export class UsersService {
     const created = new this.userModel({ ...payload ,role: payload.role ?? 'user'});
     return created.save();
   }
-//   async findById(id: string): Promise<User> {
-//     const user = await this.userModel.findById(id).exec();
-//     if (!user) {
-//       throw new NotFoundException('User not found');
-//     }
-//     return user;
-//   }
+  async findById(id: string): Promise<User> {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
 async findByEmail(email: string): Promise<User | null> {
   return this.userModel.findOne({ email }).exec(); // returns null if not found
 }
@@ -29,11 +29,11 @@ async findByUsername(username: string): Promise<User | null> {
 }
 
 
-//   async updateProfile(userId: string, patch: Partial<User>): Promise<User> {
-//     const user = await this.userModel.findByIdAndUpdate(userId, patch, { new: true }).exec();
-//     if (!user) throw new NotFoundException('User not found');
-//     return user;
-//   }
+  async updateProfile(userId: string, patch: Partial<User>): Promise<User> {
+    const user = await this.userModel.findByIdAndUpdate(userId, patch, { new: true }).exec();
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
 
 //     async changePassword(userId: string, newPassword: string) {
 //     const hash = await bcrypt.hash(newPassword, 10);
