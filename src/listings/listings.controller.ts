@@ -1,4 +1,4 @@
-import { Controller, Post, Body,Get } from '@nestjs/common';
+import { Controller, Post, Body,Get, Param, Query } from '@nestjs/common';
 import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dtos/createlisting.dto';
 import { UpdateListingDto } from './dtos/updatelisting.dto';
@@ -51,5 +51,20 @@ export class ListingsController {
   ) {
     const photos = files?.map(f => `/uploads/${f.filename}`) || [];
     return this.listingsService.create(dto, photos);
+  }
+
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.listingsService.getOne(id);
+  }
+
+  @Get()
+  getAll() {
+    return this.listingsService.getAll();
+  }
+
+  @Get('/search')
+  search(@Query('query') query: any) {
+    return this.listingsService.search(query);
   }
 }
