@@ -13,8 +13,8 @@ export class UsersService {
     const created = new this.userModel({ ...payload ,role: payload.role ?? 'user'});
     return created.save();
   }
-  async findById(id: string): Promise<User> {
-    const user = await this.userModel.findById(id).exec();
+  async findById(userId: string): Promise<User> {
+    const user = await this.userModel.findById(userId).select('-password').exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
