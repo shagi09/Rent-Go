@@ -1,4 +1,4 @@
-import { Controller, Post, Body,Get, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body,Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dtos/createlisting.dto';
 import { UpdateListingDto } from './dtos/updatelisting.dto';
@@ -7,12 +7,15 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ApiConsumes,ApiBody } from '@nestjs/swagger';
+import { CurrentUser } from 'src/decorators/currentuser.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
 @Controller('listings')
 export class ListingsController {
     constructor(private readonly listingsService: ListingsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiConsumes('multipart/form-data')
     @ApiBody({
@@ -46,11 +49,12 @@ export class ListingsController {
     }),
   )
   create(
+    @CurrentUser('userId') userId: string,
     @Body() dto: CreateListingDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
     const photos = files?.map(f => `/uploads/${f.filename}`) || [];
-    return this.listingsService.create(dto, photos);
+    return this.listingsService.create(dto, photos,userId);
   }
 
   @Get(':id')

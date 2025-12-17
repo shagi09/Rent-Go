@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Types } from 'mongoose';
 
 export type ListingDocument = Listing & Document;
 
@@ -13,6 +14,9 @@ export class Listing {
 
   @Prop({ required: true })
   price: number;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  userId: Types.ObjectId;
 
   @Prop({ required: true })
   location: string;

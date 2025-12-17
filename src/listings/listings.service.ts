@@ -10,10 +10,11 @@ export class ListingsService {
     constructor(@InjectModel(Listing.name) private listingModel: Model<ListingDocument>) {}
     updateListing(id: string, dto: UpdateListingDto) {}
 
-  async create(dto: CreateListingDto, photos: string[]) {
+  async create(dto: CreateListingDto, photos: string[],userId:string) {
     return this.listingModel.create({
       ...dto,
       photos,
+      userId
     });
   }
 
