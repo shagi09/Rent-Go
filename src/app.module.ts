@@ -7,12 +7,13 @@ import { ListingsModule } from './listings/listings.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { OwnerModule } from './owner/owner.module';
 import { ReviewModule } from './review/review.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     DatabaseConfig,
-    AuthModule, UsersModule, ListingsModule, BookingsModule, OwnerModule, ReviewModule],
+    AuthModule, UsersModule, ListingsModule, BookingsModule, OwnerModule, ReviewModule, NotificationModule],
   controllers: [],
   providers: [],
 })
