@@ -7,12 +7,14 @@ import { Model, Types } from 'mongoose';
 import { Booking, BookingDocument } from './schemas/booking.schema';
 import { BookingStatus } from './schemas/booking.schema';
 import { CreateBookingDto } from './dtos/createbooking.dto';
+import { NotificationService } from 'src/notification/notification.service'
 
 @Injectable()
 export class BookingsService {
   constructor(
     @InjectModel(Booking.name)
     private bookingModel: Model<BookingDocument>,
+    private NotificationService: NotificationService
   ) {}
 
   async create(dto: CreateBookingDto, userId: string) {
@@ -43,6 +45,12 @@ export class BookingsService {
       endDate: end,
       status: BookingStatus.PENDING,
     });
+
+    await this.NotificationService.sendMessage(
+      userId,
+      'Booking Created',
+      `Your booking request has been received and is pending confirmation.`,
+    );
   }
 
   async updateStatus(id: string, status: BookingStatus) {
