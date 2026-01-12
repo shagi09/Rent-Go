@@ -5,12 +5,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BookingSchema, Booking } from './schemas/booking.schema';
 import { NotificationService } from 'src/notification/notification.service';
 import { MessageSchema, Message } from 'src/notification/schemas/notification.schema';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
       MongooseModule.forFeature([{name: Booking.name, schema: BookingSchema},
         {name: Message.name, schema: MessageSchema},
       ]),
+      NotificationModule,
   ],
   providers: [BookingsService, NotificationService],
   controllers: [BookingsController],

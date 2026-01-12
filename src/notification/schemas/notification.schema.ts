@@ -11,6 +11,10 @@ export class Message {
 //   @Prop({ type: Types.ObjectId, ref: 'User' })
 //   senderId?: Types.ObjectId; // system or owner
 
+@Prop({ enum: ['email', 'sms'], required: true })
+channel: 'email' | 'sms';
+
+
   @Prop({ required: true })
   title: string;
 
@@ -19,6 +23,9 @@ export class Message {
 
   @Prop({ default: false })
   isRead: boolean;
+  
+  @Prop({ default: 'sent' })
+  status: string;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

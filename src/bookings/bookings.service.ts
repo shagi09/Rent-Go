@@ -46,11 +46,11 @@ export class BookingsService {
       status: BookingStatus.PENDING,
     });
 
-    await this.NotificationService.sendMessage(
-      userId,
-      'Booking Created',
-      `Your booking request has been received and is pending confirmation.`,
-    );
+    // await this.NotificationService.sendMessage(
+    //   userId,
+    //   'Booking Created',
+    //   `Your booking request has been received and is pending confirmation.`,
+    // );
   }
 
   async updateStatus(id: string, status: BookingStatus) {
