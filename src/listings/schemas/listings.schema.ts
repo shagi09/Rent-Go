@@ -24,8 +24,9 @@ export class Listing {
   @Prop({ type: [String], default: [] })
   photos: string[];
 
-  @Prop({ enum: ['active', 'paused'], default: 'active' })
+  @Prop({ enum: ['pending', 'approved', 'rejected', 'suspended'], default: 'pending' })
   status: string;
+  moderationStatus: 'pending' | 'approved' | 'rejected' | 'suspended';
 }
 
 export const ListingSchema = SchemaFactory.createForClass(Listing);

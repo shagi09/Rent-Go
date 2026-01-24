@@ -10,12 +10,13 @@ import { ReviewModule } from './review/review.module';
 import { NotificationModule } from './notification/notification.module';
 import { PaymentModule } from './payment/payment.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     DatabaseConfig,
-    AuthModule, UsersModule, ListingsModule, BookingsModule, OwnerModule, ReviewModule, NotificationModule, PaymentModule, FavoritesModule],
+    AuthModule, UsersModule, ListingsModule, BookingsModule, OwnerModule, ReviewModule, NotificationModule, PaymentModule, FavoritesModule, AdminModule],
   controllers: [],
   providers: [],
 })
