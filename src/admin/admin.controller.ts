@@ -55,5 +55,25 @@ export class AdminController {
         return this.adminService.reactivateUser(userId);
     }
 
+    @Get('overall')
+    getOverallAnalytics(){
+        return this.adminService.getOverallAnalytics();
+    }
+
+    @Get('users')
+    getAllUsers(){
+        return this.adminService.getUserMetrics();
+    }
+
+    @Get('listings')
+    getAllListings(){
+        return this.adminService.getListingMetrics();
+    }
+
+    @Get('bookings')
+    getAllBookings(){
+        return this.adminService.getBookingMetrics();
+    }
+
 
 }

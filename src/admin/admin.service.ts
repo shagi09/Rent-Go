@@ -82,10 +82,67 @@ export class AdminService {
         return user.save();
         }
     
+
         async reactivateUser(userId: string) {
         const user = await this.userModel.findById(userId);
         if (!user) throw new NotFoundException('User not found');
         user.isActive = true;
         return user.save();
         }
+
+    async getUserMetrics() {
+        const totalUsers = await this.userModel.countDocuments();
+        const activeUsers = await this.userModel.countDocuments({ isActive: true });
+        const suspendedUsers = await this.userModel.countDocuments({ isActive: false });
+
+
+        return { totalUsers, activeUsers, suspendedUsers };
+        }
+
+    async getListingMetrics() {
+        const totalListings = await this.listingModel.countDocuments();
+        const pendingListings = await this.listingModel.countDocuments({ moderationStatus: 'pending' });
+        const approvedListings = await this.listingModel.countDocuments({ moderationStatus: 'approved' });
+        const rejectedListings = await this.listingModel.countDocuments({ moderationStatus: 'rejected' });
+        const suspendedListings = await this.listingModel.countDocuments({ moderationStatus: 'suspended' });
+
+
+        return {
+        totalListings,
+        pendingListings,
+        approvedListings,
+        rejectedListings,
+        suspendedListings,
+        };
+        }
+
+     async getBookingMetrics() {
+        const totalBookings = await this.bookingModel.countDocuments();
+        const pendingBookings = await this.bookingModel.countDocuments({ status: 'pending' });
+        const confirmedBookings = await this.bookingModel.countDocuments({ status: 'confirmed' });
+        const cancelledBookings = await this.bookingModel.countDocuments({ status: 'cancelled' });
+        const completedBookings = await this.bookingModel.countDocuments({ status: 'completed' });
+
+
+        return {
+        totalBookings,
+        pendingBookings,
+        confirmedBookings,
+        cancelledBookings,
+        completedBookings,
+        };
+        }
+
+    async getOverallAnalytics() {
+        const [users, listings, bookings] = await Promise.all([
+        this.getUserMetrics(),
+        this.getListingMetrics(),
+        this.getBookingMetrics()
+        ]);
+
+
+        return { users, listings, bookings };
+        }
+
+    
 }
