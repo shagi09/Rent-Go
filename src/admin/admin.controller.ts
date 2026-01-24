@@ -45,5 +45,15 @@ export class AdminController {
         return this.adminService.cancelBooking(bookingId);
     }
 
+    @Patch(':userId/suspend')
+    suspendUser(@Param('userId') userId: string){
+        return this.adminService.suspendUser(userId);
+    }
+
+    @Patch(':userId/reactivate')
+    reactivateUser(@Param('userId') userId: string){
+        return this.adminService.reactivateUser(userId);
+    }
+
 
 }

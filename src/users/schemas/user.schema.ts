@@ -23,6 +23,12 @@ export class User extends Document {
   @Prop({ type: String, enum: ['user', 'admin'],default: 'user' })
   role: 'user' | 'admin';
 
+  @Prop({ default: true })
+  isActive: boolean;
+
+  @Prop()
+  suspensionReason?: string;
+
   createdAt: Date;
   updatedAt: Date;
 }

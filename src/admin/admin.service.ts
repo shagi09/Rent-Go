@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Listing, ListingDocument } from 'src/listings/schemas/listings.schema';
 import { Model , Types} from 'mongoose';
@@ -7,12 +7,14 @@ import { BookingDocument } from 'src/bookings/schemas/booking.schema';
 import { BookingStatus } from 'src/bookings/schemas/booking.schema';
 import { Booking } from 'src/bookings/schemas/booking.schema';
 import { NotFoundException } from '@nestjs/common';
+import { UserDocument } from 'src/users/schemas/user.schema';
 
 @Injectable()
 export class AdminService {
     constructor(
         @InjectModel('Listing') private readonly listingModel: Model<ListingDocument>,
         @InjectModel('Booking') private readonly bookingModel: Model<BookingDocument>,
+        @InjectModel('User') private readonly userModel: Model<UserDocument>,
     ) {}
 
     async getAll() {
@@ -71,5 +73,19 @@ export class AdminService {
 
 
         return booking.save();
+        }
+
+    async suspendUser(userId: string) {
+        const user = await this.userModel.findById(userId);
+        if (!user) throw new NotFoundException('User not found');
+        user.isActive = false;
+        return user.save();
+        }
+    
+        async reactivateUser(userId: string) {
+        const user = await this.userModel.findById(userId);
+        if (!user) throw new NotFoundException('User not found');
+        user.isActive = true;
+        return user.save();
         }
 }
