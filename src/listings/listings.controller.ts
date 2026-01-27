@@ -9,13 +9,16 @@ import { extname } from 'path';
 import { ApiConsumes,ApiBody } from '@nestjs/swagger';
 import { CurrentUser } from 'src/decorators/currentuser.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 
 @Controller('listings')
 export class ListingsController {
     constructor(private readonly listingsService: ListingsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('admin')
   @Post()
   @ApiConsumes('multipart/form-data')
     @ApiBody({
@@ -57,16 +60,22 @@ export class ListingsController {
     return this.listingsService.create(dto, photos,userId);
   }
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this.listingsService.getOne(id);
   }
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
   @Get()
   getAll() {
     return this.listingsService.getAll();
   }
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
   @Get('/search')
   search(@Query('query') query: any) {
     return this.listingsService.search(query);
